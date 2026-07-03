@@ -16,10 +16,8 @@ env/
 .env.local
 .env.*.local
 
-# Raw and processed data are not committed; sources are documented in README.
-data/raw/*.csv
-data/processed/*.csv
-data/processed/validation_sets/*.csv
+# Datasets are committed for reproducibility. See data/SOURCES.md for the
+# original sources, authors, and licenses (attribution required for CC-BY data).
 
 # Trained model artifacts are committed so the API can be deployed without
 # retraining (they are small and regenerable from the pipeline).
