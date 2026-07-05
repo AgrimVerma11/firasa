@@ -1,4 +1,4 @@
-"""The full prediction pipeline (Step 12).
+"""The full prediction pipeline.
 
 StudentPredictor loads every saved artifact once and runs all four layers for a
 single student: clustering, score regression, risk classification, and the

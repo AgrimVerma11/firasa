@@ -1,4 +1,4 @@
-"""Cross-dataset external validation (Step 11).
+"""Cross-dataset external validation.
 
 The score regressor is trained on DS3. This checks how well that relationship
 carries over to two datasets it never saw: DS4 (the untouched holdout) and DS2

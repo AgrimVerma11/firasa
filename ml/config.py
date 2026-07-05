@@ -2,8 +2,8 @@
 
 All the paths, constants, feature lists, label maps, ordinal orderings, and model
 hyperparameters live here, so nothing is hard-coded in the pipeline modules. The
-column names are the real ones found in Step 0 (see data/discover_schema.py), not
-the guesses from the original plan.
+column names are the real ones discovered from the raw data (see
+data/discover_schema.py), not guesses.
 
 Naming: DS1_* is the primary behavioural dataset (clustering and risk
 classification), DS3_* is the regression training source, DS2_* is the regression
@@ -12,7 +12,7 @@ negative control, and DS4_* is the untouched holdout.
 
 from pathlib import Path
 
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Filesystem layout
 # ---------------------------------------------------------------------------
 ROOT_DIR = Path(__file__).parent.parent
@@ -55,7 +55,7 @@ CLASSIFIER_BINARY_PATH = MODELS_DIR / "classifier_binary.pkl"  # High Risk vs re
 RANDOM_SEED = 42
 
 # ---------------------------------------------------------------------------
-# Dataset audit expectations (validated by data/data_loader.py in Step 3)
+# Dataset audit expectations (validated by data/data_loader.py)
 # ---------------------------------------------------------------------------
 DATASET_EXPECTED_SHAPES = {
     "behavioral_analytics": (1200, 36),
@@ -235,16 +235,16 @@ PROCRASTINATION_SCORE_BINS = [-1, 1, 3, 6]
 
 # ---------------------------------------------------------------------------
 # Risk label maps
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 RISK_LEVELS = ["Low Risk", "Moderate Risk", "High Risk"]
 RISK_LABEL_MAP = {"Low Risk": 0, "Moderate Risk": 1, "High Risk": 2}
 BINARY_RISK_MAP = {"Low Risk": 0, "Moderate Risk": 0, "High Risk": 1}
 RISK_LABEL_INVERSE = {value: key for key, value in RISK_LABEL_MAP.items()}
 
-# ===========================================================================
+# =========================================================================
 # DATASET 2 - zenodo_merged.csv (regression negative control)
 # ===========================================================================
-# Cross-dataset EDA (Step 5) showed DS2's ExamScore is uncorrelated with every
+# Cross-dataset EDA showed DS2's ExamScore is uncorrelated with every
 # usable feature (max |r| ~ 0.03); the only strong relationship is the leaked
 # FinalGrade. DS2 is therefore NOT used to train the regressor - it is reported
 # as a negative-control case where transfer fails by construction.
@@ -301,13 +301,13 @@ DS3_PLACEMENT_MAP = {"Not Placed": 1, "Placed": 0}  # proxy at-risk flag
 
 # ===========================================================================
 # DATASET 4 - performance_factors.csv (final holdout)
-# ===========================================================================
+# =============================================================================
 DS4_TARGET = "Exam_Score"
 
 # ---------------------------------------------------------------------------
-# Cross-dataset external validation (Step 11)
-# ---------------------------------------------------------------------------
-# Regression dataset roles (confirmed Step 5).
+# Cross-dataset external validation
+# ----------------------------------------------------------------=-----------
+# Regression dataset roles.
 REGRESSION_SOURCE = "ds3"     # trains the production regressor
 REGRESSION_CONTROL = "ds2"    # negative control (no usable signal)
 REGRESSION_HOLDOUT = "ds4"    # untouched final holdout
@@ -424,7 +424,7 @@ XGB_CLASSIFIER_PARAMS = {
     "eval_metric": "logloss",
 }
 
-# ===========================================================================
+# =============================================================================
 # Reporting / presentation constants
 # ===========================================================================
 MODEL_VERSIONS = {
@@ -570,7 +570,7 @@ PROGRAM_STREAM_ALIASES = {
 
 # ===========================================================================
 # API metadata (reported by /health)
-# ===========================================================================
+# ============================================================================
 API_VERSION = "1.0.0"
 DATASETS_TRAINED_ON = 4
 TOTAL_TRAINING_RECORDS = 31810

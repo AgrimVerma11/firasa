@@ -1,10 +1,10 @@
 """Explainability and the intervention engine (Layer 4).
 
-SHAP explains the deployed binary High-Risk classifier. The original plan
+SHAP explains the deployed binary High-Risk classifier. An earlier version
 assumed a tree model and TreeExplainer, but logistic regression is what won, so
 RiskExplainer uses shap.LinearExplainer, which is exact for a linear model. LIME
 is run on the same model in the notebook as a second opinion. get_interventions
-turns one student's SHAP values into a ranked, actionable plan via
+turns one student's SHAP values into a ranked, actionable set of steps via
 INTERVENTION_MAP.
 """
 
