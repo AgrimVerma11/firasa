@@ -50,7 +50,7 @@ def create_app() -> Flask:
     app.register_blueprint(predict_bp, url_prefix=API_PREFIX)
     _register_error_handlers(app)
     _register_security_headers(app)
-    _warm_models()
+    _warm_models(app)
     return app
 
 
@@ -72,16 +72,23 @@ def _register_security_headers(app: Flask) -> None:
         return response
 
 
-def _warm_models() -> None:
-    # Load the artifacts once now so the first prediction is fast, and so a
-    # missing-model problem shows up at startup instead of on the first request.
+def _warm_models(app: Flask) -> None:
+    # Load the artifacts once now so the first prediction is fast, and record the
+    # outcome so /health can report real readiness. A failure here means a broken
+    # or missing artifact, which would otherwise surface as a 500 on every
+    # prediction, so it is logged in full and the health check reports unhealthy
+    # instead of the service quietly going live in a broken state.
     try:
         from ml.predict import get_predictor
 
         get_predictor()
+        app.config["MODELS_READY"] = True
+        app.config["MODELS_ERROR"] = None
         logger.info("Model pipeline warmed and ready.")
-    except Exception as exc:  # noqa: BLE001 - only for startup diagnostics
-        logger.warning("Could not warm the model pipeline: %s", exc)
+    except Exception as exc:  # noqa: BLE001 - startup diagnostics + health signal
+        app.config["MODELS_READY"] = False
+        app.config["MODELS_ERROR"] = str(exc)
+        logger.exception("Model pipeline failed to warm; /health will report unhealthy.")
 
 
 def _register_error_handlers(app: Flask) -> None:
