@@ -1,0 +1,26 @@
+name: Keep API warm
+
+# The API runs on a free tier that spins down after a spell of inactivity, so a
+# cold visitor would otherwise wait for it to wake. This pings the health check
+# on a schedule to keep an instance warm. Scheduled runs are best-effort and can
+# be delayed by a few minutes under load. Can also be triggered by hand from the
+# Actions tab.
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the health endpoint
+        run: |
+          for attempt in 1 2; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 \
+              https://api.edusense.agrimverma.dev/api/v1/health || echo 000)
+            echo "Attempt ${attempt}: HTTP ${code}"
+            [ "${code}" = "200" ] && exit 0
+            sleep 20
+          done
+          echo "API did not report healthy yet; it may still be waking from a cold start."
