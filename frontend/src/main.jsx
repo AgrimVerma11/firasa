@@ -4,13 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import App from './App';
 import { AssessmentProvider } from './context/AssessmentContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <AssessmentProvider>
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </AssessmentProvider>
     </BrowserRouter>
     <Analytics />
