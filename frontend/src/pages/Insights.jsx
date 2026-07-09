@@ -11,6 +11,7 @@ import {
 import { Coffee, Rocket, Target, CloudRain, Users, ArrowRight, Database } from 'lucide-react';
 import { getClusterProfiles } from '../lib/api';
 import { featureLabel } from '../lib/format';
+import RadarAngleTick from '../components/dashboard/RadarAngleTick';
 import Card, { CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
@@ -114,9 +115,9 @@ export default function Insights() {
                 icon={Users}
               />
               <ResponsiveContainer width="100%" height={380}>
-                <RadarChart data={comparative} outerRadius="72%">
+                <RadarChart data={comparative} outerRadius="66%" margin={{ top: 12, right: 12, bottom: 12, left: 12 }}>
                   <PolarGrid stroke="#e5e7eb" />
-                  <PolarAngleAxis dataKey="axis" tick={{ fontSize: 12, fill: '#65748c' }} />
+                  <PolarAngleAxis dataKey="axis" tick={<RadarAngleTick />} />
                   {clusters.map((c, i) => {
                     const key = c.display_name || c.name;
                     return (

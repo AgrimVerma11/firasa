@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from 'recharts';
 import { buildProfileRadar } from '../../lib/profile';
+import RadarAngleTick from './RadarAngleTick';
 
 function RadarTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
@@ -27,10 +28,10 @@ export default function ProfileRadar({ answers }) {
   const data = buildProfileRadar(answers);
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <RadarChart data={data} outerRadius="70%">
+    <ResponsiveContainer width="100%" height={320}>
+      <RadarChart data={data} outerRadius="66%" margin={{ top: 12, right: 12, bottom: 12, left: 12 }}>
         <PolarGrid stroke="#e5e7eb" />
-        <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11, fill: '#65748c' }} />
+        <PolarAngleAxis dataKey="axis" tick={<RadarAngleTick />} />
         <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
         <Radar
           name="Your profile"
