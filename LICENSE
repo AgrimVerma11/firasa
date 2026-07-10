@@ -1,0 +1,66 @@
+EduSense Proprietary License
+
+Copyright (c) 2026 Agrim Verma. All rights reserved.
+
+EduSense, including its source code, design, user interface, documentation,
+trained model artifacts, and all associated materials (the "Work"), is the
+original work of Agrim Verma (the "Author") and is protected by copyright and
+other applicable laws. The Work is published in this repository for the sole
+purpose of demonstration, portfolio review, and evaluation.
+
+1. Reservation of rights
+
+   All rights in and to the Work are reserved by the Author. Except for the
+   limited permissions stated in Section 2, no license or right of any kind is
+   granted, by implication or otherwise, to any person or entity.
+
+2. What is permitted without written permission
+
+   a. Viewing and reading the source code for personal, non-commercial
+      evaluation.
+   b. Using the public application at edusense.agrimverma.dev as an end user.
+
+3. What is prohibited without prior written permission from the Author
+
+   a. Copying, reproducing, or reusing any part of the code, design, text, or
+      other content of the Work.
+   b. Modifying, adapting, translating, or creating derivative works from the
+      Work, in whole or in part.
+   c. Using the Work, or any part of it, in any other project of any kind,
+      including academic, coursework, group, team, or portfolio submissions.
+   d. Distributing, publishing, hosting, sublicensing, selling, or otherwise
+      making the Work or any derivative available to any third party.
+   e. Reverse engineering the Work except to the limited extent that this
+      restriction is prohibited by applicable law.
+
+4. Authorship and attribution
+
+   The Work was conceived, designed, and built solely by the Author. Presenting,
+   submitting, or otherwise representing the Work, or any part of it, as one's own
+   is strictly prohibited. Removing, altering, obscuring, or falsifying any
+   authorship, copyright, or attribution notice in the Work is strictly
+   prohibited. Involvement of the Work in any collaborative, academic, group, or
+   team context does not transfer or dilute the Author's authorship, and grants no
+   collaborator, teammate, evaluator, or third party any right to claim credit for
+   the Work or any part of it.
+
+5. Third-party materials
+
+   The datasets referenced in data/SOURCES.md are the property of their respective
+   owners and are governed by their own licenses; this License does not apply to
+   them and grants no rights in them. Third-party open-source dependencies used by
+   the Work are likewise governed by their own respective licenses.
+
+6. No warranty
+
+   THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+   PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+   FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+   TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE WORK OR THE
+   USE OR OTHER DEALINGS IN THE WORK.
+
+7. Permissions
+
+   For permission requests or any inquiry regarding use of the Work, contact:
+   contact@edusense.agrimverma.dev
