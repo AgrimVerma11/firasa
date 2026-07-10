@@ -20,31 +20,34 @@ import Spinner from '../components/ui/Spinner';
 const CLUSTER_ICONS = { 0: Coffee, 1: Rocket, 2: Target, 3: CloudRain };
 const SERIES_COLORS = ['#534ab7', '#1d9e75', '#ef9f27', '#d85a30'];
 
-// Features shown on the comparative radar. All are part of the clustering
-// feature set, so every persona has a value for them.
+// Features shown on the comparative radar, each with its real range so the chart
+// reflects the actual level a group sits at. All are part of the clustering
+// feature set, so every persona has a value for them. The ordinal codes run 0 to
+// 2 across their three bands; the numeric scales run 1 to 5.
 const RADAR_FEATURES = [
-  'study_hours_daily',
-  'focus_duration',
-  'daily_productivity',
-  'sleep_hours',
-  'career_goal_clarity',
-  'stress_level',
+  { key: 'study_hours_daily', domain: [0, 2] },
+  { key: 'focus_duration', domain: [0, 2] },
+  { key: 'daily_productivity', domain: [1, 5] },
+  { key: 'sleep_hours', domain: [0, 2] },
+  { key: 'career_goal_clarity', domain: [0, 2] },
+  { key: 'stress_level', domain: [1, 5] },
 ];
 
-// Rescale each feature across the four personas to 0..100 so the radar shows
-// where each group sits relative to the others. This is a relative view, not an
-// absolute one, which we say plainly in the card.
+// Scale each feature to its own real range. An earlier version rescaled across
+// just the four group averages, which forced the lowest group to zero even when
+// all four were nearly identical (making a Driven Achiever look like it had no
+// focus). Scaling to the real range shows each group's actual typical level, so
+// no group reads as a misleading zero.
 function buildComparative(clusters) {
-  return RADAR_FEATURES.filter((feature) =>
-    clusters.every((c) => typeof c.feature_means?.[feature] === 'number')
-  ).map((feature) => {
-    const values = clusters.map((c) => c.feature_means[feature]);
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const span = max - min || 1;
-    const point = { axis: featureLabel(feature) };
+  return RADAR_FEATURES.filter(({ key }) =>
+    clusters.every((c) => typeof c.feature_means?.[key] === 'number')
+  ).map(({ key, domain }) => {
+    const [low, high] = domain;
+    const span = high - low || 1;
+    const point = { axis: featureLabel(key) };
     clusters.forEach((c) => {
-      point[c.display_name || c.name] = Math.round(((c.feature_means[feature] - min) / span) * 100);
+      const scaled = ((c.feature_means[key] - low) / span) * 100;
+      point[c.display_name || c.name] = Math.round(Math.min(100, Math.max(0, scaled)));
     });
     return point;
   });
@@ -111,7 +114,7 @@ export default function Insights() {
             <Card className="mt-10">
               <CardHeader
                 title="How the groups compare"
-                subtitle="Relative to each other across a few core behaviours. Further out is more of that trait."
+                subtitle="The typical level each group shows on each behaviour. Further out is more of that trait."
                 icon={Users}
               />
               <ResponsiveContainer width="100%" height={380}>
