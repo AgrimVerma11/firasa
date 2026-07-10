@@ -58,6 +58,30 @@ export function featureLabel(name) {
     .join(' ');
 }
 
+// Positive phrasing for a feature when it is a strength (a protective habit), so
+// a low-stress student reads "Manages stress", not "Stress level".
+const STRENGTH_LABELS = {
+  stress_level: 'Manages stress',
+  screen_time_non_study: 'Low screen use',
+  study_consistency: 'Consistent',
+  tasks_on_time: 'Punctual',
+  assignments_on_time: 'Submits on time',
+  procrastination_level: 'Low procrastination',
+  sleep_hours: 'Well rested',
+  attendance_percentage: 'Strong attendance',
+  focus_duration: 'Good focus',
+  career_goal_clarity: 'Clear goals',
+  daily_productivity: 'Productive',
+  energy_level: 'High energy',
+  routine_rating: 'Structured routine',
+  revision_frequency: 'Revises regularly',
+  study_hours_daily: 'Puts in the hours',
+};
+
+export function strengthLabel(name) {
+  return STRENGTH_LABELS[name] || featureLabel(name);
+}
+
 const IMPACT_META = {
   high: { label: 'High impact', dot: 'bg-risk-high' },
   medium: { label: 'Medium impact', dot: 'bg-risk-moderate' },

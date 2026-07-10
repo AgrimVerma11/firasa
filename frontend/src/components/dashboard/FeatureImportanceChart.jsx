@@ -1,12 +1,6 @@
-import { BarChart, Bar, XAxis, YAxis, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { Sparkles } from 'lucide-react';
 import { featureLabel } from '../../lib/format';
-
-const IMPACT_COLOR = {
-  high: '#d85a30',
-  medium: '#ef9f27',
-  low: '#1d9e75',
-};
 
 function DriverTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
@@ -14,21 +8,23 @@ function DriverTooltip({ active, payload }) {
   return (
     <div className="rounded-lg border border-ink-100 bg-white px-3 py-2 text-xs shadow-lift">
       <p className="font-semibold text-ink-900">{point.name}</p>
-      <p className="mt-0.5 text-ink-500">Currently: {point.current}</p>
+      {point.current != null && point.current !== '' && (
+        <p className="mt-0.5 text-ink-500">Currently: {String(point.current)}</p>
+      )}
       <p className="text-ink-500">Relative weight: {point.value.toFixed(2)}</p>
     </div>
   );
 }
 
-// Charts the habits currently pushing a student's risk up, ranked by their SHAP
-// weight. Only risk-increasing drivers come back from the API, so an empty list
-// is genuinely good news and gets an encouraging message instead of a blank box.
-export default function FeatureImportanceChart({ interventions }) {
-  const data = (interventions || []).map((item) => ({
+// Charts the behaviours the model weighs most in pushing a student's risk up,
+// from the SHAP attributions. This is the explanation view, kept separate from
+// the action cards, so it can honestly include a driver that is not directly
+// actionable (like the CGPA band). An empty list is genuinely good news.
+export default function FeatureImportanceChart({ drivers }) {
+  const data = (drivers || []).map((item) => ({
     name: featureLabel(item.feature),
     value: Math.abs(item.shap_impact),
     current: item.current_value,
-    impact: item.expected_impact,
   }));
 
   if (data.length === 0) {
@@ -45,7 +41,7 @@ export default function FeatureImportanceChart({ interventions }) {
   }
 
   return (
-    <div style={{ height: data.length * 56 + 16 }}>
+    <div style={{ height: data.length * 46 + 16 }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 0 }}>
           <XAxis type="number" hide domain={[0, 'dataMax']} />
@@ -58,11 +54,7 @@ export default function FeatureImportanceChart({ interventions }) {
             tick={{ fontSize: 13, fill: '#505d73' }}
           />
           <Tooltip cursor={{ fill: 'rgba(83,74,183,0.05)' }} content={<DriverTooltip />} />
-          <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={22}>
-            {data.map((entry, index) => (
-              <Cell key={index} fill={IMPACT_COLOR[entry.impact] || '#8479d2'} />
-            ))}
-          </Bar>
+          <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={20} fill="#8479d2" />
         </BarChart>
       </ResponsiveContainer>
     </div>

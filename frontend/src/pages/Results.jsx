@@ -32,8 +32,17 @@ export default function Results() {
   // show, so send the student back to the questionnaire.
   if (!result) return <Navigate to="/assessment" replace />;
 
-  const { cluster, predicted_score, risk_level, risk_probability, framing, top_interventions } =
-    result;
+  const {
+    cluster,
+    predicted_score,
+    risk_level,
+    risk_probability,
+    framing,
+    top_interventions,
+    risk_drivers,
+    guidance,
+    maintenance,
+  } = result;
 
   const retake = () => {
     reset();
@@ -125,7 +134,7 @@ export default function Results() {
             subtitle="The habits weighing most on your signal right now."
             icon={Activity}
           />
-          <FeatureImportanceChart interventions={top_interventions} />
+          <FeatureImportanceChart drivers={risk_drivers} />
         </Card>
       </div>
 
@@ -137,7 +146,11 @@ export default function Results() {
             subtitle="Tied to your own answers, ranked by likely impact."
             icon={Target}
           />
-          <InterventionPanel interventions={top_interventions} />
+          <InterventionPanel
+            interventions={top_interventions}
+            guidance={guidance}
+            maintenance={maintenance}
+          />
         </Card>
 
         <Card>

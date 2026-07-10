@@ -20,7 +20,14 @@ import pandas as pd
 
 from ml import config
 from ml.clustering import StudentProfileClusterer
-from ml.explainability import RiskExplainer, get_interventions
+from ml.explainability import (
+    INTERVENTION_HEALTHY_TARGET,
+    RiskExplainer,
+    build_maintenance,
+    get_interventions,
+    get_risk_drivers,
+    personalize,
+)
 from ml.preprocessing import BehavioralPreprocessor, derive_procrastination_level
 from ml.regression import add_interaction_features
 
@@ -120,7 +127,11 @@ class StudentPredictor:
         # Layer 2: academic-score regression (DS1 -> DS3 feature mapping).
         regression_features = add_interaction_features(build_regression_features(student_input))
         raw_score = float(self.regressor.predict(regression_features)[0])
-        predicted_score = round(min(100.0, max(0.0, raw_score)), 1)
+        # Whole number, clamped to 0-100. Keeping it integer means the displayed
+        # score and any what-if delta are computed at the same precision, so the
+        # score can never appear to move past 100 or show a fractional change on a
+        # value that reads as a round number.
+        predicted_score = int(round(min(100.0, max(0.0, raw_score))))
 
         # Layer 4: SHAP-driven interventions.
         shap_row = self.explainer.shap_values(features)[0]
@@ -128,8 +139,14 @@ class StudentPredictor:
         intervention_features[config.PROCRASTINATION_FEATURE] = str(
             derive_procrastination_level(ds1_row).iloc[0]
         )
-        interventions = get_interventions(
-            intervention_features, shap_row, self.feature_names, top_n=3
+        candidates = get_interventions(intervention_features, shap_row, self.feature_names)
+        interventions, guidance = personalize(
+            candidates, student_input, cluster["cluster_id"], binary_probability, top_n=3
+        )
+        self._attach_risk_drops(student_input, binary_probability, interventions)
+        risk_drivers = get_risk_drivers(shap_row, self.feature_names, intervention_features)
+        maintenance = build_maintenance(
+            shap_row, self.feature_names, intervention_features, cluster["cluster_id"]
         )
 
         framing = config.RISK_FRAMING.get(risk_level, {})
@@ -150,9 +167,48 @@ class StudentPredictor:
                 "score_note": config.SCORE_NOTE,
             },
             "top_interventions": interventions,
+            "risk_drivers": risk_drivers,
+            "guidance": guidance,
+            "maintenance": maintenance,
             "disclaimer": config.DISCLAIMER,
             "model_versions": config.MODEL_VERSIONS,
         }
+
+    def _binary_probability(self, student_input: dict) -> float:
+        """High-Risk probability for one student, scoring only the binary model.
+
+        Deliberately lightweight (no clustering, regression, or SHAP) so the
+        intervention impact estimates stay cheap and cannot recurse back into
+        predict or what_if.
+        """
+        ds1_row = self._prepare_ds1_row(student_input)
+        features, _ = self.preprocessor.transform(ds1_row)
+        return float(self.classifier_binary.predict_proba(features)[0][1])
+
+    def _attach_risk_drops(
+        self, student_input: dict, baseline_probability: float, interventions: list[dict]
+    ) -> None:
+        """Estimate how far each recommendation could move the risk signal.
+
+        Sets the driver to its healthy target, re-scores the binary risk model,
+        and records the before/after probability when the drop is meaningful. A
+        negligible or non-positive drop is reported as no estimate, so the card
+        falls back to its qualitative impact label.
+        """
+        for item in interventions:
+            item["risk_drop"] = None
+            target = INTERVENTION_HEALTHY_TARGET.get(item["feature"])
+            if target is None:
+                continue
+            modified = self._apply_modification(student_input, item["feature"], target)
+            new_probability = self._binary_probability(modified)
+            drop = baseline_probability - new_probability
+            if drop >= 0.02:
+                item["risk_drop"] = {
+                    "from": round(baseline_probability, 3),
+                    "to": round(new_probability, 3),
+                    "points": round(drop * 100),
+                }
 
     @staticmethod
     def _apply_modification(student_input: dict, feature: str, new_value) -> dict:
@@ -189,7 +245,7 @@ class StudentPredictor:
             "modifications": modifications,
             "original_score": baseline["predicted_score"],
             "new_score": modified["predicted_score"],
-            "score_delta": round(modified["predicted_score"] - baseline["predicted_score"], 1),
+            "score_delta": modified["predicted_score"] - baseline["predicted_score"],
             "original_risk_probability": baseline["risk_probability"],
             "new_risk_probability": modified["risk_probability"],
             "risk_probability_delta": round(
