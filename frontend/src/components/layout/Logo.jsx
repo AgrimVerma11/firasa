@@ -1,6 +1,6 @@
 import { cn } from '../../lib/cn';
 
-// The EduSense mark: a small graduation-cap glyph plus the wordmark. Kept as an
+// The Firasa mark: a small graduation-cap glyph plus the wordmark. Kept as an
 // inline SVG so it stays crisp and needs no image request.
 export default function Logo({ className, showWord = true }) {
   return (
@@ -19,7 +19,7 @@ export default function Logo({ className, showWord = true }) {
       </svg>
       {showWord && (
         <span className="text-lg font-semibold tracking-tight text-ink-900">
-          Edu<span className="text-brand-600">Sense</span>
+          Fir<span className="text-brand-600">asa</span>
         </span>
       )}
     </span>

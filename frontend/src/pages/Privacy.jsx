@@ -20,7 +20,7 @@ export default function Privacy() {
       <p className="mt-2 text-sm text-ink-400">Last updated: July 2026</p>
 
       <div className="mt-6 rounded-xl bg-brand-50 p-5 text-sm leading-relaxed text-brand-900">
-        The short version: EduSense collects no personal information, does not store your answers on
+        The short version: Firasa collects no personal information, does not store your answers on
         its servers, and uses no tracking cookies. It is built to know as little about you as
         possible.
       </div>
@@ -72,10 +72,10 @@ export default function Privacy() {
         <p>
           Questions about privacy, or about how the tool works, can go to{' '}
           <a
-            href="mailto:contact@edusense.agrimverma.dev"
+            href="mailto:contact@firasa.agrimverma.dev"
             className="font-medium text-brand-600 hover:underline"
           >
-            contact@edusense.agrimverma.dev
+            contact@firasa.agrimverma.dev
           </a>
           . You can also reach the maintainer via{' '}
           <a

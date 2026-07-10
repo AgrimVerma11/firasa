@@ -62,9 +62,9 @@ export default function About() {
   return (
     <div className="container-page py-12 sm:py-16">
       <div className="max-w-3xl">
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900">About EduSense</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-ink-900">About Firasa</h1>
         <p className="mt-4 text-lg leading-relaxed text-ink-500">
-          EduSense turns everyday study habits into a clear, honest reflection. The aim is simple:
+          Firasa turns everyday study habits into a clear, honest reflection. The aim is simple:
           give students a mirror for their routine early enough to do something with it, and to do
           it in a way that respects both their privacy and their sense of self.
         </p>
@@ -151,7 +151,7 @@ export default function About() {
       <div className="mt-14 flex flex-col items-center gap-4 rounded-3xl bg-brand-700 px-6 py-12 text-center">
         <h2 className="text-2xl font-bold tracking-tight text-white">See it on your own habits</h2>
         <p className="max-w-xl text-brand-100">
-          The best way to understand EduSense is to try it. It takes a few minutes and nothing you
+          The best way to understand Firasa is to try it. It takes a few minutes and nothing you
           enter leaves your session.
         </p>
         <Button as={Link} to="/assessment" variant="secondary" size="lg" className="border-transparent">

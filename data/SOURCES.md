@@ -1,6 +1,6 @@
 # Data Sources and Attribution
 
-EduSense is trained and validated on four independent, publicly available student
+Firasa is trained and validated on four independent, publicly available student
 datasets. They are included in this repository for reproducibility. All credit
 belongs to the original authors, cited below. The processed files under
 `data/processed/` are derived from these raw files by `ml/preprocessing.py`.

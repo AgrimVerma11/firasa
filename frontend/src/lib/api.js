@@ -38,7 +38,7 @@ function normalizeError(error) {
     };
   }
   return {
-    message: 'Could not reach the EduSense service. Please try again in a moment.',
+    message: 'Could not reach the Firasa service. Please try again in a moment.',
     code: 'network_error',
     field: null,
     status: null,

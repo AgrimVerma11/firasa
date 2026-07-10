@@ -1,4 +1,4 @@
-"""Preprocessing for EduSense.
+"""Preprocessing for Firasa.
 
 BehavioralPreprocessor turns the DS1 behavioural survey into a model-ready
 matrix: it builds the procrastination proxy, fills the gaps, encodes the ordinal

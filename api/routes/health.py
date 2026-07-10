@@ -32,6 +32,7 @@ def health():
     files_present = all(path.exists() for path in _ARTIFACTS)
     models_ready = bool(current_app.config.get("MODELS_READY")) and files_present
     body = {
+        "service": config.SERVICE_NAME,
         "status": "healthy" if models_ready else "degraded",
         "models_loaded": models_ready,
         "datasets_trained_on": config.DATASETS_TRAINED_ON,

@@ -22,7 +22,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-ink-100 bg-white/80 backdrop-blur-md">
       <nav className="container-page flex h-16 items-center justify-between">
-        <Link to="/" className="rounded-lg" aria-label="EduSense home">
+        <Link to="/" className="rounded-lg" aria-label="Firasa home">
           <Logo />
         </Link>
 

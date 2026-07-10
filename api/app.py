@@ -1,4 +1,4 @@
-"""Flask application factory for the EduSense API.
+"""Flask application factory for the Firasa API.
 
 create_app wires up CORS, the versioned routes, and structured JSON errors, then
 warms the model pipeline so the first request isn't slow. Run it locally with
@@ -25,13 +25,13 @@ API_PREFIX = "/api/v1"
 # kilobytes at most, so anything much bigger is either a mistake or abuse.
 MAX_CONTENT_LENGTH = 64 * 1024  # 64 KB
 
-# Localhost dev server default. In production set EDUSENSE_ALLOWED_ORIGINS to the
+# Localhost dev server default. In production set FIRASA_ALLOWED_ORIGINS to the
 # real frontend origin(s), comma-separated, and CORS locks to exactly those.
 DEFAULT_ALLOWED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
 
 def _allowed_origins() -> list[str]:
-    raw = os.environ.get("EDUSENSE_ALLOWED_ORIGINS", "").strip()
+    raw = os.environ.get("FIRASA_ALLOWED_ORIGINS", "").strip()
     if raw:
         return [origin.strip() for origin in raw.split(",") if origin.strip()]
     return DEFAULT_ALLOWED_ORIGINS

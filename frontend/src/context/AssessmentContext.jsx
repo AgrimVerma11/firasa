@@ -11,7 +11,7 @@ import { DEFAULT_ANSWERS } from '../config/schema';
 // leave still holds. It is never sent anywhere except the one prediction call.
 const AssessmentContext = createContext(null);
 
-const STORAGE_KEY = 'edusense.session';
+const STORAGE_KEY = 'firasa.session';
 
 function loadPersisted() {
   try {

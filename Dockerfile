@@ -1,4 +1,4 @@
-# EduSense API image.
+# Firasa API image.
 FROM python:3.11-slim
 
 # Predictable, lean Python in a container.

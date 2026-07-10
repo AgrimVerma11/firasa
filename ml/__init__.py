@@ -1,4 +1,4 @@
-"""Machine learning core for EduSense.
+"""Machine learning core for Firasa.
 
 This package holds the four-layer modelling pipeline (clustering, regression,
 classification, explainability), the shared configuration, the preprocessing

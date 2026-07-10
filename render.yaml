@@ -1,9 +1,9 @@
-# Render blueprint for the EduSense API.
+# Render blueprint for the Firasa API.
 # Create the service from this file (New > Blueprint) or configure the same
 # fields by hand in the dashboard.
 services:
   - type: web
-    name: edusense-api
+    name: firasa-api
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
@@ -12,6 +12,6 @@ services:
     envVars:
       # The deployed frontend origin, so CORS accepts it and rejects everyone
       # else. Update if the frontend URL changes.
-      - key: EDUSENSE_ALLOWED_ORIGINS
-        value: https://edusense.agrimverma.dev
+      - key: FIRASA_ALLOWED_ORIGINS
+        value: https://firasa.agrimverma.dev
     # PORT is provided by Render automatically and read by the Dockerfile CMD.

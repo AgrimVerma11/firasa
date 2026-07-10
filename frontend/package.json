@@ -1,8 +1,8 @@
 {
-  "name": "edusense-frontend",
+  "name": "firasa-frontend",
   "private": true,
   "version": "1.0.0",
-  "description": "Web client for the EduSense academic risk intelligence platform.",
+  "description": "Web client for Firasa, an academic risk intelligence tool.",
   "type": "module",
   "scripts": {
     "dev": "vite",

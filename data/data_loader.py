@@ -1,4 +1,4 @@
-"""Dataset loading and audit utilities for EduSense.
+"""Dataset loading and audit utilities for Firasa.
 
 Loads the four source datasets from disk, validates each against the schema
 declared in :mod:`ml.config`, and emits a structured audit summary. Validation

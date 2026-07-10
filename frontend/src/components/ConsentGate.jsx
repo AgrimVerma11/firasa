@@ -11,7 +11,7 @@ const POINTS = [
 ];
 
 // Shown once per session before the questionnaire. The student has to actively
-// acknowledge what EduSense is (and is not) before starting, which keeps the
+// acknowledge what Firasa is (and is not) before starting, which keeps the
 // tool honest about its limits and gives clear, informed consent.
 export default function ConsentGate({ onAccept }) {
   const [checked, setChecked] = useState(false);
@@ -44,7 +44,7 @@ export default function ConsentGate({ onAccept }) {
             className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-brand-600"
           />
           <span className="text-sm text-ink-700">
-            I understand EduSense is a self-reflection tool, not a diagnosis or a grade prediction.
+            I understand Firasa is a self-reflection tool, not a diagnosis or a grade prediction.
           </span>
         </label>
 

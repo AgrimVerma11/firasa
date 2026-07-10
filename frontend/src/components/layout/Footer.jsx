@@ -3,7 +3,7 @@ import { Mail } from 'lucide-react';
 import Logo from './Logo';
 
 const GITHUB_URL = 'https://github.com/AgrimVerma11';
-const CONTACT_EMAIL = 'contact@edusense.agrimverma.dev';
+const CONTACT_EMAIL = 'contact@firasa.agrimverma.dev';
 
 // Brand icons kept as inline SVGs. lucide's brand glyphs are being retired, and
 // this keeps the three social marks visually consistent.
@@ -101,12 +101,12 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 border-t border-ink-100 pt-6">
           <p className="text-xs leading-relaxed text-ink-400">
-            EduSense is a reflective aid, not a medical, psychological, or academic assessment, and
+            Firasa is a reflective aid, not a medical, psychological, or academic assessment, and
             it does not predict any individual grade. If you are feeling distressed, please reach out
             to your institution&apos;s counselling service.
           </p>
           <div className="mt-4 flex flex-col gap-3 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between">
-            <p>&copy; {year} EduSense. All rights reserved.</p>
+            <p>&copy; {year} Firasa. All rights reserved.</p>
             <div className="flex items-center gap-4">
               <Link to="/privacy" className="hover:text-ink-700">
                 Privacy

@@ -5,7 +5,7 @@ import { cn } from '../../lib/cn';
 // DISCLAIMER) so the wording stays in one place; a shorter fallback is used if
 // the API did not send it.
 const FALLBACK =
-  'EduSense is a self-reflection aid based on self-reported study habits and wellbeing. ' +
+  'Firasa is a self-reflection aid based on self-reported study habits and wellbeing. ' +
   'It is not a medical, psychological, or academic assessment and does not predict grades. ' +
   'Use it to reflect and to start a conversation with a mentor.';
 

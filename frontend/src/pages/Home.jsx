@@ -112,7 +112,7 @@ export default function Home() {
               variants={fadeUp}
               className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-500"
             >
-              EduSense reads the patterns in how you study, rest, and plan, then reflects them back
+              Firasa reads the patterns in how you study, rest, and plan, then reflects them back
               in plain language with a few small steps worth trying. It is a mirror for your
               routine, not a verdict on your ability.
             </motion.p>

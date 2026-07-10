@@ -18,7 +18,7 @@ jobs:
         run: |
           for attempt in 1 2; do
             code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 \
-              https://api.edusense.agrimverma.dev/api/v1/health || echo 000)
+              https://api.firasa.agrimverma.dev/api/v1/health || echo 000)
             echo "Attempt ${attempt}: HTTP ${code}"
             [ "${code}" = "200" ] && exit 0
             sleep 20

@@ -85,7 +85,7 @@ export default function Insights() {
           The four student profiles
         </h1>
         <p className="mt-3 text-lg leading-relaxed text-ink-500">
-          EduSense groups study behaviour into four recurring patterns, learned from real student
+          Firasa groups study behaviour into four recurring patterns, learned from real student
           data rather than fixed rules. Here is what each group tends to look like, and how they
           differ.
         </p>

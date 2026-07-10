@@ -20,14 +20,14 @@ export default function Terms() {
       <p className="mt-2 text-sm text-ink-400">Last updated: July 2026</p>
 
       <div className="mt-6 rounded-xl bg-brand-50 p-5 text-sm leading-relaxed text-brand-900">
-        The short version: EduSense is a self-reflection tool. It does not diagnose anything and it
+        The short version: Firasa is a self-reflection tool. It does not diagnose anything and it
         does not predict your grades. Use it to reflect, and talk to a mentor or counsellor about
         anything that matters.
       </div>
 
-      <Section title="What EduSense is, and is not">
+      <Section title="What Firasa is, and is not">
         <p>
-          EduSense reads patterns in self-reported study habits and wellbeing and reflects them
+          Firasa reads patterns in self-reported study habits and wellbeing and reflects them
           back. It is not medical, psychological, or academic advice, and it is not a prediction of
           any individual&apos;s marks. Every result is indicative and meant as a prompt for
           reflection.
@@ -60,7 +60,7 @@ export default function Terms() {
 
       <Section title="If you are struggling">
         <p>
-          EduSense is not a crisis service. If you are feeling distressed, please reach out to your
+          Firasa is not a crisis service. If you are feeling distressed, please reach out to your
           institution&apos;s counselling service or a trusted person straight away.
         </p>
       </Section>

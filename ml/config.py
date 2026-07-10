@@ -1,4 +1,4 @@
-"""Central config for the EduSense pipeline.
+"""Central config for the Firasa pipeline.
 
 All the paths, constants, feature lists, label maps, ordinal orderings, and model
 hyperparameters live here, so nothing is hard-coded in the pipeline modules. The
@@ -452,7 +452,7 @@ RISK_PALETTE_LIST = ["#1D9E75", "#EF9F27", "#D85A30"]
 # without reading as a clinical or definitive verdict.
 
 DISCLAIMER = (
-    "EduSense is a self-reflection aid based on self-reported study habits and "
+    "Firasa is a self-reflection aid based on self-reported study habits and "
     "wellbeing. It is not a medical, psychological, or academic assessment and "
     "does not predict any individual's grades. Use it to reflect and to start a "
     "conversation with a mentor. If you are feeling distressed, please contact "
@@ -571,6 +571,7 @@ PROGRAM_STREAM_ALIASES = {
 # ===========================================================================
 # API metadata (reported by /health)
 # ============================================================================
+SERVICE_NAME = "firasa-api"
 API_VERSION = "1.0.0"
 DATASETS_TRAINED_ON = 4
 TOTAL_TRAINING_RECORDS = 31810
