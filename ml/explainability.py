@@ -538,6 +538,14 @@ def get_interventions(
     return interventions
 
 
+# Attributes that the model may legitimately weigh but that a student cannot read
+# as a habit weighing on their signal. Age is demographic, not behavioural, and
+# not something anyone can act on or reflect on, so it never belongs in the driver
+# chart even when its SHAP is non-trivial. Excluded from this view only; the model
+# still uses it unchanged, so no prediction or metric moves.
+NON_DRIVER_FEATURES = {"age"}
+
+
 def get_risk_drivers(
     shap_values_for_student: np.ndarray,
     feature_names: list[str],
@@ -551,13 +559,14 @@ def get_risk_drivers(
     Restricted to the readable single-column features (numerics, ordinal bands,
     and procrastination), so the labels stay clean and one-hot columns never leak
     in. As an explanation it can include drivers that are not directly actionable,
-    such as the CGPA band.
+    such as the CGPA band, but not demographic attributes like age (see
+    NON_DRIVER_FEATURES).
     """
     interpretable = (
         set(config.DS1_NUMERIC_FEATURES)
         | set(config.DS1_ORDINAL_FEATURES)
         | {config.PROCRASTINATION_FEATURE}
-    )
+    ) - NON_DRIVER_FEATURES
     shap_by_feature = dict(zip(feature_names, shap_values_for_student))
     rows = []
     for feature, value in shap_by_feature.items():
