@@ -54,9 +54,23 @@ export const STEPS = [
       },
       {
         name: 'cgpa_category',
-        label: 'Your current CGPA band',
-        type: 'segmented',
-        options: ['5.0 – 6.9', '7.0 – 8.4', '8.5 – 9.4', '9.5 – 10.0'],
+        label: 'How are your grades overall?',
+        type: 'grade',
+        // The value stored and sent is always the 10-point CGPA band the model
+        // was trained on, so these `value` strings must match ml/config.py
+        // exactly (en-dashes and all). The scale tabs only relabel the same four
+        // bands for a student on a US 4.0 GPA or a percentage system.
+        scales: [
+          { id: 'cgpa', label: 'CGPA (10)' },
+          { id: 'gpa', label: 'GPA (4.0)' },
+          { id: 'percent', label: 'Percentage' },
+        ],
+        options: [
+          { value: '5.0 – 6.9', cgpa: '5.0 – 6.9', gpa: '2.0 – 2.7', percent: '45 – 65%' },
+          { value: '7.0 – 8.4', cgpa: '7.0 – 8.4', gpa: '2.8 – 3.3', percent: '66 – 80%' },
+          { value: '8.5 – 9.4', cgpa: '8.5 – 9.4', gpa: '3.4 – 3.7', percent: '81 – 89%' },
+          { value: '9.5 – 10.0', cgpa: '9.5 – 10.0', gpa: '3.8 – 4.0', percent: '90%+' },
+        ],
       },
       {
         name: 'academic_satisfaction',
@@ -147,18 +161,22 @@ export const STEPS = [
       {
         name: 'daily_productivity',
         label: 'How productive do your days feel?',
-        type: 'scale',
-        min: 1,
-        max: 5,
-        scaleLabels: { 1: 'Low', 5: 'High' },
+        type: 'bands',
+        options: [
+          { value: 2, label: 'Low', detail: 'Most days slip by without much getting done.' },
+          { value: 3, label: 'Moderate', detail: 'Some days click into place, others do not.' },
+          { value: 4.5, label: 'High', detail: 'I get real, focused work done most days.' },
+        ],
       },
       {
         name: 'routine_rating',
         label: 'How structured is your daily routine?',
-        type: 'scale',
-        min: 1,
-        max: 3,
-        scaleLabels: { 1: 'Loose', 2: 'Some structure', 3: 'Structured' },
+        type: 'bands',
+        options: [
+          { value: 1, label: 'Loose', detail: 'My days rarely follow a set pattern.' },
+          { value: 2, label: 'Some structure', detail: 'A rough rhythm, but it shifts a lot.' },
+          { value: 3, label: 'Structured', detail: 'Most days follow a steady routine.' },
+        ],
       },
     ],
   },

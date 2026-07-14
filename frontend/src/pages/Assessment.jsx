@@ -16,7 +16,7 @@ import ConsentGate from '../components/ConsentGate';
 // A field must be answered before we score unless it is optional or one of the
 // pre-filled inputs (numeric scales and age always hold a valid value).
 function isRequired(field) {
-  return !field.optional && (field.type === 'segmented' || field.type === 'select');
+  return !field.optional && ['segmented', 'select', 'grade'].includes(field.type);
 }
 
 export default function Assessment() {
