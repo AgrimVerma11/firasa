@@ -176,18 +176,51 @@ export const STEPS = [
       {
         name: 'stress_level',
         label: 'Your typical stress level',
-        type: 'scale',
-        min: 1,
-        max: 5,
-        scaleLabels: { 1: 'Calm', 5: 'Very stressed' },
+        type: 'bands',
+        // The numeric values map onto the same scale the model was trained on
+        // and onto the intervention thresholds (below 2.5 = none, 2.5 to 3.5 =
+        // gentle, 3.5+ = the full stress card). Manageable / situational /
+        // persistent tracks acute versus chronic stress, which is the axis that
+        // actually matters, not raw intensity.
+        options: [
+          {
+            value: 2,
+            label: 'Manageable',
+            detail: 'Mostly calm. When stress shows up, it passes quickly.',
+          },
+          {
+            value: 3,
+            label: 'Situational',
+            detail: 'Builds around deadlines or events, then settles.',
+          },
+          {
+            value: 4.5,
+            label: 'Persistent',
+            detail: 'Often there even without a clear reason, and hard to ease.',
+          },
+        ],
       },
       {
         name: 'energy_level',
         label: 'Your usual energy through the day',
-        type: 'scale',
-        min: 1,
-        max: 5,
-        scaleLabels: { 1: 'Drained', 5: 'Energetic' },
+        type: 'bands',
+        options: [
+          {
+            value: 2,
+            label: 'Running low',
+            detail: 'Often tired or drained by the time you sit down.',
+          },
+          {
+            value: 3,
+            label: 'Steady',
+            detail: 'Enough to carry you through most of the day.',
+          },
+          {
+            value: 4.5,
+            label: 'High',
+            detail: 'Alert and energised for most of the day.',
+          },
+        ],
       },
       {
         name: 'external_pressure',
@@ -351,7 +384,9 @@ export const FIELD_BY_NAME = STEPS.reduce((acc, step) => {
 // The fields a student must answer before we score them. Optional enrichment
 // fields (and the pre-filled numeric scales) are excluded.
 export const REQUIRED_FIELDS = STEPS.flatMap((step) =>
-  step.fields.filter((f) => !f.optional && f.type !== 'scale' && f.type !== 'number').map((f) => f.name)
+  step.fields
+    .filter((f) => !f.optional && !['scale', 'number', 'bands'].includes(f.type))
+    .map((f) => f.name)
 );
 
 // Friendly labels for raw feature names, used wherever the API echoes a feature

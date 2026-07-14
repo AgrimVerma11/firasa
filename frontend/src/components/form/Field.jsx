@@ -1,6 +1,7 @@
 import SegmentedControl from './SegmentedControl';
 import SelectControl from './SelectControl';
 import ScaleControl from './ScaleControl';
+import BandControl from './BandControl';
 import NumberStepper from './NumberStepper';
 
 // Renders one question: a label, an optional "optional" tag, the control that
@@ -47,6 +48,10 @@ export default function Field({ field, value, onChange, invalid }) {
           max={field.max}
           labels={field.scaleLabels}
         />
+      )}
+
+      {type === 'bands' && (
+        <BandControl name={name} value={value} onChange={onChange} options={field.options} />
       )}
 
       {type === 'number' && (
