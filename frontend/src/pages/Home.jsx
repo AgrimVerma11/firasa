@@ -43,7 +43,7 @@ const FEATURES = [
   },
   {
     icon: LineChart,
-    title: 'Indicative trajectory',
+    title: 'Momentum index',
     body: 'A rough sense of where your current habits could lead, framed as a direction to reflect on, never a grade.',
   },
   {

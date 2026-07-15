@@ -34,6 +34,25 @@ from ml.regression import add_interaction_features
 logger = logging.getLogger(__name__)
 
 
+def to_momentum_index(raw_score: float) -> float:
+    """Rescale the raw 0-100 regression output to the 0-10 momentum index.
+
+    Rounded to one decimal here and nowhere else, so the number we show and any
+    what-if delta are computed at the same precision. That is what stops a
+    delta from disagreeing with the values it sits between.
+    """
+    clamped = min(100.0, max(0.0, raw_score))
+    return round(clamped / (100.0 / config.MOMENTUM_SCALE_MAX), config.MOMENTUM_DECIMALS)
+
+
+def momentum_tier(index: float) -> str:
+    """The qualitative word for a momentum index, from the config bands."""
+    for floor, label in config.MOMENTUM_TIERS:
+        if index >= floor:
+            return label
+    return config.MOMENTUM_TIERS[-1][1]
+
+
 def build_regression_features(student_input: dict) -> pd.DataFrame:
     """Map DS1 behavioural inputs into the DS3 regression features.
 
@@ -127,11 +146,7 @@ class StudentPredictor:
         # Layer 2: academic-score regression (DS1 -> DS3 feature mapping).
         regression_features = add_interaction_features(build_regression_features(student_input))
         raw_score = float(self.regressor.predict(regression_features)[0])
-        # Whole number, clamped to 0-100. Keeping it integer means the displayed
-        # score and any what-if delta are computed at the same precision, so the
-        # score can never appear to move past 100 or show a fractional change on a
-        # value that reads as a round number.
-        predicted_score = int(round(min(100.0, max(0.0, raw_score))))
+        momentum_index = to_momentum_index(raw_score)
 
         # Layer 4: SHAP-driven interventions.
         shap_row = self.explainer.shap_values(features)[0]
@@ -157,14 +172,16 @@ class StudentPredictor:
                 "display_name": cluster["display_name"],
                 "description": cluster["cluster_description"],
             },
-            "predicted_score": predicted_score,
+            "momentum_index": momentum_index,
+            "momentum_tier": momentum_tier(momentum_index),
+            "momentum_scale_max": config.MOMENTUM_SCALE_MAX,
             "risk_level": risk_level,
             "risk_probability": round(binary_probability, 3),
             "risk_label": binary_label,
             "framing": {
                 "headline": framing.get("headline", ""),
                 "reflection": framing.get("reflection", ""),
-                "score_note": config.SCORE_NOTE,
+                "momentum_note": config.MOMENTUM_NOTE,
             },
             "top_interventions": interventions,
             "risk_drivers": risk_drivers,
@@ -231,8 +248,9 @@ class StudentPredictor:
         modifications is a list of {"feature", "new_value"} entries, applied
         together against the same baseline so a student can see the combined
         effect of several changes at once (not just the last one). Academic levers
-        move the predicted score; behavioural ones move the risk probability, so
-        both deltas are reported.
+        move the momentum index; behavioural ones move the risk probability, so
+        both deltas are reported. The momentum index barely shifts on behavioural
+        changes, which is expected and is why the risk delta sits beside it.
         """
         baseline = self.predict(student_input)
         modified_input = dict(student_input)
@@ -243,9 +261,14 @@ class StudentPredictor:
         modified = self.predict(modified_input)
         return {
             "modifications": modifications,
-            "original_score": baseline["predicted_score"],
-            "new_score": modified["predicted_score"],
-            "score_delta": modified["predicted_score"] - baseline["predicted_score"],
+            "original_momentum": baseline["momentum_index"],
+            "new_momentum": modified["momentum_index"],
+            # Both sides are already rounded to the display precision, but the
+            # subtraction still needs rounding to keep float noise out of the delta.
+            "momentum_delta": round(
+                modified["momentum_index"] - baseline["momentum_index"],
+                config.MOMENTUM_DECIMALS,
+            ),
             "original_risk_probability": baseline["risk_probability"],
             "new_risk_probability": modified["risk_probability"],
             "risk_probability_delta": round(

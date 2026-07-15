@@ -479,7 +479,32 @@ RISK_FRAMING = {
                       "to talk to a mentor, not a verdict on how you will do.",
     },
 }
-SCORE_NOTE = "Indicative trajectory if your current habits continue, not a grade prediction."
+# The momentum index is the regression output rescaled for display: the model
+# still predicts on the 0-100 exam scale, and we divide by 10 and keep one
+# decimal. Same number of distinct values, so nothing is lost, it just reads as
+# an index rather than a mark and is harder to mistake for a grade.
+MOMENTUM_SCALE_MAX = 10.0
+MOMENTUM_DECIMALS = 1
+
+# Tier bands over the 0-10 index, high to low. First band whose floor the score
+# clears wins, so the last entry is the catch-all.
+MOMENTUM_TIERS = (
+    (9.0, "Strongly positive"),
+    (7.0, "On track"),
+    (5.0, "Needs attention"),
+    (0.0, "At risk"),
+)
+
+# Be straight about what this number is. It leans heavily on the CGPA band (see
+# CGPA_BAND_TO_PREVIOUS_SCORE below), so behavioural changes barely move it while
+# the risk probability swings a lot. Pointing the student at the risk signal is
+# the honest read, and it stops the what-if panel from looking broken when the
+# index sits still.
+MOMENTUM_NOTE = (
+    "An indicative trajectory, not a predicted grade. It leans on your past "
+    "results, so it moves slowly; your risk signal is what responds when your "
+    "routine changes."
+)
 
 # Student-facing cluster names (softer than the internal/technical names).
 CLUSTER_DISPLAY_NAMES = {

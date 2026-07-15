@@ -193,12 +193,12 @@ export default function WhatIfPanel({ student }) {
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <DeltaStat
-                label="Indicative score"
-                before={result.original_score}
-                after={result.new_score}
-                delta={result.score_delta}
+                label="Momentum index"
+                before={result.original_momentum}
+                after={result.new_momentum}
+                delta={result.momentum_delta}
                 goodDirection={1}
-                formatValue={(v, isDelta) => (isDelta ? signed(v) : Math.round(v))}
+                formatValue={(v, isDelta) => (isDelta ? signed(v) : Number(v).toFixed(1))}
               />
               <DeltaStat
                 label="Risk likelihood"

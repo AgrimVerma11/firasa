@@ -6,7 +6,7 @@ import Card, { CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Disclaimer from '../components/ui/Disclaimer';
 import RiskBadge from '../components/dashboard/RiskBadge';
-import ScoreMeter from '../components/dashboard/ScoreMeter';
+import MomentumIndex from '../components/dashboard/MomentumIndex';
 import ClusterCard from '../components/dashboard/ClusterCard';
 import ProfileRadar from '../components/dashboard/ProfileRadar';
 import FeatureImportanceChart from '../components/dashboard/FeatureImportanceChart';
@@ -33,7 +33,7 @@ export default function Results() {
   usePageMeta({
     title: 'Your reading | Firasa',
     description:
-      'Your Firasa reading: a behavioural profile, an indicative trajectory, a risk signal, and the one habit to change first.',
+      'Your Firasa reading: a behavioural profile, a momentum index, a risk signal, and the one habit to change first.',
     path: '/results',
     noindex: true,
   });
@@ -44,7 +44,9 @@ export default function Results() {
 
   const {
     cluster,
-    predicted_score,
+    momentum_index,
+    momentum_tier,
+    momentum_scale_max,
     risk_level,
     risk_probability,
     framing,
@@ -91,14 +93,15 @@ export default function Results() {
 
         <motion.div variants={reveal}>
           <Card className="flex h-full flex-col">
-            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-ink-400">
-              Indicative trajectory
+            <p className="mb-4 text-xs font-medium uppercase tracking-wide text-ink-400">
+              Momentum Index
             </p>
-            <div className="flex flex-1 items-center justify-center">
-              <ScoreMeter
-                score={predicted_score}
-                riskLevel={risk_level}
-                note={framing?.score_note}
+            <div className="flex flex-1 flex-col">
+              <MomentumIndex
+                index={momentum_index}
+                tier={momentum_tier}
+                scaleMax={momentum_scale_max}
+                note={framing?.momentum_note}
               />
             </div>
           </Card>
